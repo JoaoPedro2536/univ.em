@@ -13,7 +13,8 @@ EM(bl, bu, Freq, theta_init, maxit = 1000, tol1 = 0.001, tol2 = 1e-04)
 
 \item{Freq}{Frequency over the intervals, values in vector.}
 
-\item{theta_init}{The initial value of the parameter.}
+\item{theta_init}{The initial values of the parameters, for mu and sigma. 
+Vector with two values.}
 
 \item{maxit}{The maximum number of iteration of the EM algorithm.}
 
