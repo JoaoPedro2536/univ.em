@@ -2,4 +2,5 @@
 
 export(EM)
 export(MCEM)
+export(exact_mle)
 export(univ_Simul)

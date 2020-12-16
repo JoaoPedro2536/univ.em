@@ -18,7 +18,7 @@ SSest(theta, bl, bu, muupdate, Freq)
 \item{Freq}{Frequency over the intervals, values in vector.}
 }
 \value{
-Return SS which are the estimates of sigma in E-step.
+Return SS which are the estimates of sigma (variance) in E-step.
 }
 \description{
 E-Step For Variance Estimate

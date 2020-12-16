@@ -18,7 +18,7 @@ mean and sd.}
 of the ZMCEM function.}
 }
 \value{
-Return sigma which are the estimates of sd in E-step.
+Return sigma which are the estimates of variance in E-step.
 }
 \description{
 E-Step estimate the parameter of sigma.

@@ -58,7 +58,7 @@ Mest<- function(theta,bl,bu,Freq){
 #' @param bu Upper bound of the intervals, values in vector, ending with +inf.
 #' @param Freq Frequency over the intervals, values in vector.
 #' @param muupdate Is the updated estimates of mu.
-#' @return Return SS which are the estimates of sigma in E-step.
+#' @return Return SS which are the estimates of sigma (variance) in E-step.
 #' @examples
 #'  simdataaaa = univ_Simul(ncol_matrix=1,
 #'                         n=50,
@@ -349,7 +349,7 @@ MuMCEM<- function(data,simZ){
 #' @param simZ The matrix, which is the samples simulated over the intervals,
 #'  of the ZMCEM function.
 #' @param mupd Is the updated estimates of mu.
-#' @return Return sigma which are the estimates of sd in E-step.
+#' @return Return sigma which are the estimates of variance in E-step.
 #' @examples
 #'  simdataaaa = univ_Simul(ncol_matrix=1,
 #'                          n=50,
@@ -403,7 +403,7 @@ sigmaMCEM<- function(data,simZZ,mupd){
 #' @param tol2 A number, the stopping criteria for updating sigma.
 #' @return This is the maximization step of the MCEM algorithm (M-step) that has
 #'  defined it using the function E-Step for mean estimate and variance
-#'  estimate. Returns the estimates for mean (mu) and sigma (sd).
+#'  estimate. Returns the estimates for mean (mu) and sigma (variance).
 #' @export
 #' @examples
 #'  simdataaaa = univ_Simul(ncol_matrix=1,
@@ -468,6 +468,36 @@ MCEM<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
 
 ### LOG L FUNCTION -------------------------------------------------------------
 
+#' Likelihood Estimation.
+#'
+#' @param TL Lower end of the intervals.
+#' @param freq Frequency on each interval.
+#' @param theta The arguments including mu and sigma.
+#' @return Return the result of the log likelihood for the mean (mu) and sigma 
+#'  (standard deviation) estimates.
+#' @examples
+#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#'                          n=50,
+#'                          nclass = 10,
+#'                          mean = 68,
+#'                          sd = 1.80,
+#'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
+#'  
+#'  
+#'  TL<- simdataaaa$simul_data[,1,1]
+#'  freq<- simdataaaa$simul_data[,3,1]
+#'  res <- stats::optim(c((67/2),(1/2)),fn=Logll,TL=TL,freq=freq,
+#'  method="L-BFGS-B",lower=c(0.02,0.2),upper=c(180,2))
+#'  
+#'  estimate<- res$par
+#'  mu_estimate<- base::round(res$par[1]/res$par[2],4)
+#'  sigma_estimate<- base::round(1/res$par[2],4) 
+#'  sigma_squared_estimate = sigma_estimate^2
+#'  
+#'  mu_estimate
+#'  sigma_squared_estimate
+
+
 Logll <- function(TL,freq,theta){
   m<- length(TL)
 
@@ -501,9 +531,68 @@ Logll <- function(TL,freq,theta){
   }#end for
 
   L <- -(a+b+c)
+  
   return(L)
 }
 ################################################################################
+
+
+### exact_mle FUNCTION -------------------------------------------------------------
+
+#' Maximizing the Likelihood Estimation.
+#'
+#' @param TL Lower end of the intervals.
+#' @param freq Frequency on each interval.
+#' @param intial_mu Initial numeric value for mu (mean).
+#' @param intial_sigma Initial numeric value for sigma.
+#' @return Return the result of the log likelihood for the mean (mu) and sigma 
+#'  (variance) estimates.
+#' @export
+#' @examples
+#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#'                          n=50,
+#'                          nclass = 10,
+#'                          mean = 68,
+#'                          sd = 1.80,
+#'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
+#'  
+#'  
+#'  TL<- simdataaaa$simul_data[,1,1]
+#'  freq<- simdataaaa$simul_data[,3,1]
+#'  
+#'  estimates_simul = exact_mle(TL=TL,
+#'                              freq=freq,
+#'                              intial_mu = (67/2),
+#'                              intial_sigma = (1/2))
+#'  
+#'  estimates_simul
+
+exact_mle <- function(TL = c(-Inf,62,64,66,68,70,72,74,76,78),
+                      freq = c(0,1,9,16,15,8,1,0,0,0),
+                      intial_mu = (67/2),
+                      intial_sigma = (1/2)){
+  
+  res <- stats::optim(c(intial_mu,intial_sigma),
+                      fn=Logll,
+                      TL=TL,
+                      freq=freq,
+                      method="L-BFGS-B",
+                      lower=c(0.02,0.2),
+                      upper=c(180,2))
+  
+  mu_estimate<- base::round(res$par[1]/res$par[2],4)
+  sigma_estimate<- base::round(1/res$par[2],4)
+  sigma_squared_estimate = sigma_estimate^2
+  
+  final_list <- base::list("mu_estimate" = mu_estimate,
+                           "sigma_estimate" = sigma_squared_estimate)
+  
+  return(final_list)
+  
+}
+################################################################################
+
+
 
 
 

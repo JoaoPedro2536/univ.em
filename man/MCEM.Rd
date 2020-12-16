@@ -23,7 +23,7 @@ Vector with two values.}
 \value{
 This is the maximization step of the MCEM algorithm (M-step) that has
  defined it using the function E-Step for mean estimate and variance
- estimate. Returns the estimates for mean (mu) and sigma (sd).
+ estimate. Returns the estimates for mean (mu) and sigma (variance).
 }
 \description{
 This is the maximization step of the MCEM algorithm (M-step).
