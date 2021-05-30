@@ -10,17 +10,17 @@
 #' @return Return M which are the estimates of mean in E-step.
 #' @examples
 #' 
-#'  library(em.univ)
+#'  library(em.estimate)
 #'  library(stats)
 #'  
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  munew <- em.univ::mest(theta=c(67,2),
+#'  munew <- em.estimate::mest(theta=c(67,2),
 #'                bl=simdataaaa$simul_data[,1,1],
 #'                bu=simdataaaa$simul_data[,2,1],
 #'                freq=simdataaaa$simul_data[,3,1])
@@ -65,18 +65,18 @@ mest<- function(theta,bl,bu,freq){
 #' @return Return ss which are the estimates of sigma (variance) in E-step.
 #' @examples
 #' 
-#'  library(em.univ)
+#'  library(em.estimate)
 #'  library(stats)
 #' 
 #' 
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                         n=50,
 #'                         nclass = 10,
 #'                         mean = 68,
 #'                         sd = 1.80,
 #'                         fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  ssnew <- em.univ::ssest(theta=c(67,2),
+#'  ssnew <- em.estimate::ssest(theta=c(67,2),
 #'               bl=simdataaaa$simul_data[,1,1],
 #'               bu=simdataaaa$simul_data[,2,1],
 #'               muupdate=mest(theta=c(67,2),
@@ -138,18 +138,18 @@ ssest<- function(theta,bl,bu,muupdate,freq){
 #' @export
 #' @examples
 #' 
-#'  library(em.univ)
+#'  library(em.estimate)
 #' 
 #' 
 #'  output2 <- base::list()
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                        n=50,
 #'                        nclass = 10,
 #'                        mean = 68,
 #'                        sd = 1.80,
 #'                        fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'
-#'  output2 <- em.univ::em(bl=simdataaaa$simul_data[,1,1],
+#'  output2 <- em.estimate::em(bl=simdataaaa$simul_data[,1,1],
 #'                bu=simdataaaa$simul_data[,2,1],
 #'                freq=simdataaaa$simul_data[,3,1],
 #'                theta_init=c(67,2),
@@ -166,8 +166,8 @@ em<- function(bl,bu,freq,theta_init,maxit=1000,tol1=1e-3,tol2=1e-4){
 
   for (i in 1:maxit){
     cur<- c(Mu_cur,S_cur)
-    munew<- em.univ::mest(theta=cur,bl,bu,freq)
-    ssnew<- em.univ::ssest(theta=cur,bl,bu,
+    munew<- em.estimate::mest(theta=cur,bl,bu,freq)
+    ssnew<- em.estimate::ssest(theta=cur,bl,bu,
                   muupdate=mest(theta=cur,bl,bu,freq) ,freq)
 
     Mu_new <- munew
@@ -211,10 +211,10 @@ em<- function(bl,bu,freq,theta_init,maxit=1000,tol1=1e-3,tol2=1e-4){
 #' @export
 #' @examples
 #' 
-#'  library(em.univ)
+#'  library(em.estimate)
 #'  library(stats)
 #'  
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                        n=50,
 #'                        nclass = 10,
 #'                        mean = 68,
@@ -296,14 +296,14 @@ univ_simul <- function(ncol_matrix=30,
 #' 
 #'  library(truncnorm)
 #' 
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  zm_matriz <- em.univ::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
+#'  zm_matriz <- em.estimate::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
 #'  zm_matriz
 
 zmcem<- function(theta,data){
@@ -333,16 +333,17 @@ zmcem<- function(theta,data){
 #' @return Return mu which are the estimates of mean in E-step.
 #' @examples
 #' 
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  zm_matriz <- em.univ::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
+#'  zm_matriz <- em.estimate::zmcem(theta=c(67,2),
+#'                                  data = simdataaaa$simul_data[,,1])
 #'  
-#'  mu_estimate <- em.univ::mumcem(data = simdataaaa$simul_data[,,1],
+#'  mu_estimate <- em.estimate::mumcem(data = simdataaaa$simul_data[,,1],
 #'                            simz = zm_matriz)
 #'  mu_estimate
 
@@ -375,18 +376,20 @@ mumcem<- function(data,simz){
 #' @param mupd Is the updated estimates of mu.
 #' @return Return sigma which are the estimates of variance in E-step.
 #' @examples
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  zm_matriz <- em.univ::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
+#'  zm_matriz <- em.estimate::zmcem(theta=c(67,2),
+#'                                  data = simdataaaa$simul_data[,,1])
 #'  
-#'  mu_estimate <- em.univ::mumcem(data = simdataaaa$simul_data[,,1], simz = zm_matriz)
+#'  mu_estimate <- em.estimate::mumcem(data = simdataaaa$simul_data[,,1], 
+#'                                     simz = zm_matriz)
 #'  
-#'  sigma_estimate <- em.univ::sigmamcem(data = simdataaaa$simul_data[,,1],
+#'  sigma_estimate <- em.estimate::sigmamcem(data = simdataaaa$simul_data[,,1],
 #'                             simz = zm_matriz,
 #'                             mupd = mu_estimate)
 #'  sigma_estimate
@@ -431,10 +434,10 @@ sigmamcem<- function(data,simzz,mupd){
 #' @export
 #' @examples
 #' 
-#'  library(em.univ)
+#'  library(em.estimate)
 #' 
 #' 
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
@@ -443,7 +446,7 @@ sigmamcem<- function(data,simzz,mupd){
 #'  
 #'  outputmcem2 <- base::list()
 #'  
-#'  outputmcem2[[1]] <- em.univ::mcem(data=simdataaaa$simul_data[,,1],
+#'  outputmcem2[[1]] <- em.estimate::mcem(data=simdataaaa$simul_data[,,1],
 #'                            theta_init=c(67,2),
 #'                            maxit = 1000,tol1=1e-2,tol2=1e-3)
 #'  
@@ -462,13 +465,13 @@ mcem<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
   
   for (i in 1:maxit){
     cur<- c(Mu_cur,S_cur)
-    munew<- em.univ::mumcem(data=mydat,
-                            simz=em.univ::zmcem(theta=cur,
+    munew<- em.estimate::mumcem(data=mydat,
+                            simz=em.estimate::zmcem(theta=cur,
                                                 data=mydat))
 
-    Snew<- em.univ::sigmamcem(data=mydat,simzz=zmcem(theta=cur,data=mydat),
-                     mupd=em.univ::mumcem(data=mydat,
-                                          simz=em.univ::zmcem(theta=cur,
+    Snew<- em.estimate::sigmamcem(data=mydat,simzz=zmcem(theta=cur,data=mydat),
+                     mupd=em.estimate::mumcem(data=mydat,
+                                          simz=em.estimate::zmcem(theta=cur,
                                                               data=mydat)))
 
     Mu_new<- munew
@@ -512,7 +515,7 @@ mcem<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
 #' 
 #'  library(stats)
 #' 
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
@@ -587,7 +590,7 @@ Logll <- function(tl,freq,theta){
 #'  (variance) estimates.
 #' @export
 #' @examples
-#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
+#'  simdataaaa <- em.estimate::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
@@ -598,7 +601,7 @@ Logll <- function(tl,freq,theta){
 #'  tl<- simdataaaa$simul_data[,1,1]
 #'  freq<- simdataaaa$simul_data[,3,1]
 #'  
-#'  estimates_simul <- em.univ::exact_mle(tl=tl,
+#'  estimates_simul <- em.estimate::exact_mle(tl=tl,
 #'                              freq=freq,
 #'                              intial_mu = (67/2),
 #'                              intial_sigma = (1/2))

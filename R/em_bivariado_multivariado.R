@@ -22,10 +22,10 @@
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -164,10 +164,10 @@ mult_simul <- function(mm = c(68,68),
 #'
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -206,7 +206,7 @@ mult_simul <- function(mm = c(68,68),
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' out<- em.univ::mexi(data = simulateddata[,,1],
+#' out<- em.estimate::mexi(data = simulateddata[,,1],
 #'            mu = mu2,
 #'            sigma = sigma2)
 #'
@@ -268,10 +268,10 @@ mexi<- function(data,mu,sigma){
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -309,7 +309,7 @@ mexi<- function(data,mu,sigma){
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' out<- em.univ::mcovxi(data = simulateddata[,,1],
+#' out<- em.estimate::mcovxi(data = simulateddata[,,1],
 #'              mu = mu2,
 #'              sigma = sigma2)
 #'
@@ -360,10 +360,10 @@ mcovxi<- function(data,mu,sigma){
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -400,11 +400,11 @@ mcovxi<- function(data,mu,sigma){
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' exi<- em.univ::mexi(data=simulateddata[,,1],
+#' exi<- em.estimate::mexi(data=simulateddata[,,1],
 #'            mu=mu2,
 #'            sigma=sigma2)
 #'
-#' out<-em.univ:: mem(data=simulateddata[,,1],
+#' out<-em.estimate:: mem(data=simulateddata[,,1],
 #'           exi=exi)
 #'
 #' out
@@ -440,12 +440,12 @@ mem<- function(data,exi){
 #' @examples 
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
 #'
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -482,15 +482,15 @@ mem<- function(data,exi){
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' exi<- em.univ::mexi(data=simulateddata[,,1],
+#' exi<- em.estimate::mexi(data=simulateddata[,,1],
 #'            mu=mu2,
 #'            sigma=sigma2)
 #'
-#' ss1<- em.univ::mcovxi(data=simulateddata[,,1],
+#' ss1<- em.estimate::mcovxi(data=simulateddata[,,1],
 #'              mu=mu2,
 #'              sigma=sigma2)
 #'
-#' out<- em.univ::exxest(data=simulateddata[,,1],
+#' out<- em.estimate::exxest(data=simulateddata[,,1],
 #'              exi=exi,
 #'              ss1=ss1)
 #'
@@ -528,10 +528,10 @@ exxest<- function(data,exi,ss1){
 #' @examples 
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -568,22 +568,22 @@ exxest<- function(data,exi,ss1){
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' exi<- em.univ::mexi(data=simulateddata[,,1],
+#' exi<- em.estimate::mexi(data=simulateddata[,,1],
 #'            mu=mu2,
 #'            sigma=sigma2)
 #'
-#' ss1<- em.univ::mcovxi(data=simulateddata[,,1],
+#' ss1<- em.estimate::mcovxi(data=simulateddata[,,1],
 #'              mu=mu2,
 #'              sigma=sigma2)
 #'
-#' exx<- em.univ::exxest(data=simulateddata[,,1],
+#' exx<- em.estimate::exxest(data=simulateddata[,,1],
 #'              exi=exi,
 #'              ss1=ss1)
 #'
-#' updmu <- em.univ::mem(data=simulateddata[,,1],
+#' updmu <- em.estimate::mem(data=simulateddata[,,1],
 #'              exi=exi)
 #'
-#' out<- em.univ::est_sig(data=simulateddata[,,1],
+#' out<- em.estimate::est_sig(data=simulateddata[,,1],
 #'             exx=exx,
 #'             ex=exi,
 #'             updmu = updmu)
@@ -646,10 +646,10 @@ est_sig<- function(data,
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -686,7 +686,7 @@ est_sig<- function(data,
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' out<- em.univ::embivg(data=simulateddata[,,1],
+#' out<- em.estimate::embivg(data=simulateddata[,,1],
 #'              mu_init=mu2,
 #'              sigma_init=sigma2,
 #'              maxit=1000,
@@ -709,23 +709,23 @@ embivg<- function(data,
   for (i in 1:maxit){
     MU_cur<- M_cur
     SS_cur<- S_cur
-    MuNew<- em.univ::mem(data=data,
-                exi=em.univ::mexi(data=data,
+    MuNew<- em.estimate::mem(data=data,
+                exi=em.estimate::mexi(data=data,
                          mu= MU_cur,
                          sigma=SS_cur))
-    SigmaNew<- em.univ::est_sig(data=data,
-                     exx=em.univ::exxest(data=data,
-                                exi=em.univ::mexi(data=data,
+    SigmaNew<- em.estimate::est_sig(data=data,
+                     exx=em.estimate::exxest(data=data,
+                                exi=em.estimate::mexi(data=data,
                                          mu=MU_cur,
                                          sigma=SS_cur),
-                                ss1=em.univ::mcovxi(data=data,
+                                ss1=em.estimate::mcovxi(data=data,
                                            mu=MU_cur,
                                            sigma=SS_cur)),
-                     ex=em.univ::mexi(data=data,
+                     ex=em.estimate::mexi(data=data,
                              mu=MU_cur,
                              sigma=SS_cur),
-                     updmu=em.univ::mem(data=data,
-                               exi=em.univ::mexi(data=data,
+                     updmu=em.estimate::mem(data=data,
+                               exi=em.estimate::mexi(data=data,
                                         mu=MU_cur,
                                         sigma=SS_cur)))
 
@@ -833,10 +833,10 @@ embivg<- function(data,
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -871,7 +871,7 @@ embivg<- function(data,
 #' mu <- c(67,67)
 #' sigma <- base::matrix(c(3.1, 2.16, 2.16, 6.05), 2, 2)
 #'
-#' out<- em.univ::zmcem_mult(data=simulateddata[,,1],
+#' out<- em.estimate::zmcem_mult(data=simulateddata[,,1],
 #'                  mu=mu,
 #'                  sigma=sigma)
 #'
@@ -929,10 +929,10 @@ zmcem_mult<- function(data,
 #'
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -967,11 +967,11 @@ zmcem_mult<- function(data,
 #' mu <- c(67,67)
 #' sigma <- matrix(c(3.1, 2.16, 2.16, 6.05), 2, 2)
 #'
-#' generated_sample<- em.univ::zmcem_mult(data=simulateddata[,,1],
+#' generated_sample<- em.estimate::zmcem_mult(data=simulateddata[,,1],
 #'                               mu=mu,
 #'                               sigma=sigma)
 #'
-#' out<- em.univ::mu_zmcem_mult(data=simulateddata[,,1],
+#' out<- em.estimate::mu_zmcem_mult(data=simulateddata[,,1],
 #'                      generated_sample=generated_sample)
 #'
 #'
@@ -1022,10 +1022,10 @@ mu_zmcem_mult<- function(data,
 #'
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -1060,15 +1060,15 @@ mu_zmcem_mult<- function(data,
 #' mu <- c(67,67)
 #' sigma <- base::matrix(c(3.1, 2.16, 2.16, 6.05), 2, 2)
 #'
-#' generated_sample<- em.univ::zmcem_mult(data=simulateddata[,,1],
+#' generated_sample<- em.estimate::zmcem_mult(data=simulateddata[,,1],
 #'                               mu=mu,
 #'                               sigma=sigma)
 #'
-#' mu_vector<- em.univ::mu_zmcem_mult(data=simulateddata[,,1],
+#' mu_vector<- em.estimate::mu_zmcem_mult(data=simulateddata[,,1],
 #'                           generated_sample=generated_sample)
 #'
 #'
-#' out<- em.univ::sigma_zmcem_mult(data=simulateddata[,,1],
+#' out<- em.estimate::sigma_zmcem_mult(data=simulateddata[,,1],
 #'                        generated_sample = generated_sample,
 #'                        mu_vector = mu_vector)
 #'
@@ -1137,10 +1137,10 @@ sigma_zmcem_mult<- function(data,
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -1176,7 +1176,7 @@ sigma_zmcem_mult<- function(data,
 #' sigma2<- base::matrix(c(3.1,2.2,2.2,4.3),2,2)
 #'
 #'
-#' out<- em.univ::mcem_mult(data=simulateddata[,,1],
+#' out<- em.estimate::mcem_mult(data=simulateddata[,,1],
 #'               mu_init=mu2,
 #'               sigma_init=sigma2,
 #'               maxit=1000,
@@ -1204,21 +1204,21 @@ mcem_mult<- function(data,
     MU_cur<- M_cur
     SS_cur<- S_cur
 
-    MuNew<- em.univ::mu_zmcem_mult(data=data,
+    MuNew<- em.estimate::mu_zmcem_mult(data=data,
                           generated_sample=
-                            em.univ::zmcem_mult(data=data,
+                            em.estimate::zmcem_mult(data=data,
                                         mu=MU_cur,
                                         sigma=SS_cur))
 
-    SigmaNew<- em.univ::sigma_zmcem_mult(data=data,
+    SigmaNew<- em.estimate::sigma_zmcem_mult(data=data,
                                 generated_sample=
-                                  em.univ::zmcem_mult(data=data,
+                                  em.estimate::zmcem_mult(data=data,
                                              mu=MU_cur,
                                              sigma=SS_cur),
                                 mu_vector=
-                                  em.univ::mu_zmcem_mult(data=data,
+                                  em.estimate::mu_zmcem_mult(data=data,
                                       generated_sample=
-                                        em.univ::zmcem_mult(data=data,
+                                        em.estimate::zmcem_mult(data=data,
                                                             mu=MU_cur,
                                                             sigma=SS_cur)))
 
@@ -1275,10 +1275,10 @@ mcem_mult<- function(data,
 #' @examples
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -1313,7 +1313,7 @@ mcem_mult<- function(data,
 #'
 #' theta<- c(65,65,3,6,2.12132)
 #'
-#' out<- em.univ::mult_llik(data = simulateddata[,,1],
+#' out<- em.estimate::mult_llik(data = simulateddata[,,1],
 #'                 theta = theta)
 #'
 #' out
@@ -1382,12 +1382,12 @@ mult_llik<- function(data,
 #'
 #'
 #' library(MASS)
-#' library(em.univ)
+#' library(em.estimate)
 #' library(tmvtnorm)
 #'
 #' set.seed(12345)
 #'
-#' simulateddata = em.univ::mult_simul(mm = c(68,68),
+#' simulateddata = em.estimate::mult_simul(mm = c(68,68),
 #'                           ss = base::matrix(c(3,2,2,6),2,2) ,
 #'                           n_data_sets = 1,
 #'                           breaks_x = c(-Inf,64,65,66,67,68,69,70,71,72,Inf),
@@ -1423,7 +1423,7 @@ mult_llik<- function(data,
 #'
 #' theta<- c(65,65,3,6,2.12132)
 #'
-#' out = em.univ::mle_exact_mult(theta<- c(65,65,3,6,2.12132),
+#' out = em.estimate::mle_exact_mult(theta<- c(65,65,3,6,2.12132),
 #'                      data=simulateddata[,,1])
 #'
 #' out
