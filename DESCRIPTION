@@ -1,4 +1,4 @@
-Package: em.univ
+Package: em.estimate
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
@@ -12,6 +12,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Imports: 
     truncnorm,
-    stats
+    stats,
+    MASS
 Suggests: 
     testthat

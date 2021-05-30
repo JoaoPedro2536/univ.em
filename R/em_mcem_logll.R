@@ -6,27 +6,31 @@
 #' @param theta Initial theta value, vector containing mean and sd.
 #' @param bl Lower bound of the intervals, values in vector, starting from -inf.
 #' @param bu Upper bound of the intervals, values in vector, ending with +inf.
-#' @param Freq Frequency over the intervals, values in vector.
-#' @return Return M which are the estimates of mean in E-step
+#' @param freq frequency over the intervals, values in vector.
+#' @return Return M which are the estimates of mean in E-step.
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(em.univ)
+#'  library(stats)
+#'  
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  Munew <- Mest(theta=c(67,2),
+#'  munew <- em.univ::mest(theta=c(67,2),
 #'                bl=simdataaaa$simul_data[,1,1],
 #'                bu=simdataaaa$simul_data[,2,1],
-#'                Freq=simdataaaa$simul_data[,3,1])
+#'                freq=simdataaaa$simul_data[,3,1])
 #'  
 #'  
-#'  Munew
+#'  munew
 
 
 
-Mest<- function(theta,bl,bu,Freq){
+mest<- function(theta,bl,bu,freq){
 
   Aj<- base::rep(0,base::length(bl))
   astar<- base::rep(0,base::length(bl))
@@ -43,7 +47,7 @@ Mest<- function(theta,bl,bu,Freq){
          ((stats::pnorm(bstar[i]) - stats::pnorm(astar[i]))) )
   }
 
-  M <- base::sum(Aj*Freq)/sum(Freq)
+  M <- base::sum(Aj*freq)/base::sum(freq)
   return(M)
 
 }
@@ -56,30 +60,35 @@ Mest<- function(theta,bl,bu,Freq){
 #' @param theta Initial theta value, vector containing mean and sd.
 #' @param bl Lower bound of the intervals, values in vector, starting from -inf.
 #' @param bu Upper bound of the intervals, values in vector, ending with +inf.
-#' @param Freq Frequency over the intervals, values in vector.
+#' @param freq Frequency over the intervals, values in vector.
 #' @param muupdate Is the updated estimates of mu.
-#' @return Return SS which are the estimates of sigma (variance) in E-step.
+#' @return Return ss which are the estimates of sigma (variance) in E-step.
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(em.univ)
+#'  library(stats)
+#' 
+#' 
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                         n=50,
 #'                         nclass = 10,
 #'                         mean = 68,
 #'                         sd = 1.80,
 #'                         fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  SSnew<- SSest(theta=c(67,2),
+#'  ssnew <- em.univ::ssest(theta=c(67,2),
 #'               bl=simdataaaa$simul_data[,1,1],
 #'               bu=simdataaaa$simul_data[,2,1],
-#'               muupdate=Mest(theta=c(67,2),
+#'               muupdate=mest(theta=c(67,2),
 #'                             bl=simdataaaa$simul_data[,1,1],
 #'                             bu=simdataaaa$simul_data[,2,1],
-#'                             Freq=simdataaaa$simul_data[,3,1]),
-#'               Freq=simdataaaa$simul_data[,3,1])
+#'                             freq=simdataaaa$simul_data[,3,1]),
+#'               freq=simdataaaa$simul_data[,3,1])
 #'  
-#'  SSnew
+#'  ssnew
 
 
-SSest<- function(theta,bl,bu,muupdate,Freq){
+ssest<- function(theta,bl,bu,muupdate,freq){
 
   Bj<- base::rep(0,base::length(bl))
   bstar<- base::rep(0,base::length(bl))
@@ -105,8 +114,8 @@ SSest<- function(theta,bl,bu,muupdate,Freq){
 
   }
 
-  SS<- base::sum(Bj*Freq)/base::sum(Freq)
-  return(SS)
+  ss<- base::sum(Bj*freq)/base::sum(freq)
+  return(ss)
 }
 ################################################################################
 
@@ -116,7 +125,7 @@ SSest<- function(theta,bl,bu,muupdate,Freq){
 #'
 #' @param bl Lower bound of the intervals, values in vector, starting from -inf.
 #' @param bu Upper bound of the intervals, values in vector, ending with +inf.
-#' @param Freq Frequency over the intervals, values in vector.
+#' @param freq Frequency over the intervals, values in vector.
 #' @param theta_init The initial values of the parameters, for mu and sigma. 
 #'  Vector with two values.
 #' @param maxit The maximum number of iteration of the EM algorithm.
@@ -128,17 +137,21 @@ SSest<- function(theta,bl,bu,muupdate,Freq){
 #'  "sigma_estimate" for the variance.
 #' @export
 #' @examples
-#'  output2 =list()
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(em.univ)
+#' 
+#' 
+#'  output2 <- base::list()
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                        n=50,
 #'                        nclass = 10,
 #'                        mean = 68,
 #'                        sd = 1.80,
 #'                        fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'
-#'  output2<- EM(bl=simdataaaa$simul_data[,1,1],
+#'  output2 <- em.univ::em(bl=simdataaaa$simul_data[,1,1],
 #'                bu=simdataaaa$simul_data[,2,1],
-#'                Freq=simdataaaa$simul_data[,3,1],
+#'                freq=simdataaaa$simul_data[,3,1],
 #'                theta_init=c(67,2),
 #'                maxit = 1000,
 #'                tol1=1e-3,
@@ -146,19 +159,19 @@ SSest<- function(theta,bl,bu,muupdate,Freq){
 #'  output2
 
 
-EM<- function(bl,bu,Freq,theta_init,maxit=1000,tol1=1e-3,tol2=1e-4){
+em<- function(bl,bu,freq,theta_init,maxit=1000,tol1=1e-3,tol2=1e-4){
   flag<- 0
   Mu_cur<- theta_init[1]
   S_cur<- theta_init[2]
 
   for (i in 1:maxit){
     cur<- c(Mu_cur,S_cur)
-    Munew<- Mest(theta=cur,bl,bu,Freq)
-    SSnew<- SSest(theta=cur,bl,bu,
-                  muupdate=Mest(theta=cur,bl,bu,Freq) ,Freq)
+    munew<- em.univ::mest(theta=cur,bl,bu,freq)
+    ssnew<- em.univ::ssest(theta=cur,bl,bu,
+                  muupdate=mest(theta=cur,bl,bu,freq) ,freq)
 
-    Mu_new <- Munew
-    S_new <- base::sqrt(SSnew)
+    Mu_new <- munew
+    S_new <- base::sqrt(ssnew)
     new_step<- c(Mu_new,S_new)
 
     if(base::abs(cur[1]-new_step[1])<tol1 & base::abs(cur[2]-new_step[2])<tol2){
@@ -177,7 +190,7 @@ EM<- function(bl,bu,Freq,theta_init,maxit=1000,tol1=1e-3,tol2=1e-4){
 
 ################################################################################
 
-### func univ_Simul (gerando simdata2) -----------------------------------------
+### func univ_simul (gerando simdata2) -----------------------------------------
 
 #' Generating data from a gaussian
 #'
@@ -197,16 +210,22 @@ EM<- function(bl,bu,Freq,theta_init,maxit=1000,tol1=1e-3,tol2=1e-4){
 #'  the second column the observation count.
 #' @export
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(em.univ)
+#'  library(stats)
+#'  
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                        n=50,
 #'                        nclass = 10,
 #'                        mean = 68,
 #'                        sd = 1.80,
 #'                        fr_breaks=c(62,64,66,68,70,72,74,76,78))
+#'                        
 #'  simdataaaa
+#'  
 
 
-univ_Simul <- function(ncol_matrix=30,
+univ_simul <- function(ncol_matrix=30,
                        n=50,
                        nclass = 10,
                        mean = 68,
@@ -274,17 +293,20 @@ univ_Simul <- function(ncol_matrix=30,
 #' @return Simulate data about each specific interval and assign it to the 
 #'  simulate matrix.
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(truncnorm)
+#' 
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  ZM_matriz = ZMCEM(theta=c(67,2),data = simdataaaa$simul_data[,,1])
-#'  ZM_matriz
+#'  zm_matriz <- em.univ::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
+#'  zm_matriz
 
-ZMCEM<- function(theta,data){
+zmcem<- function(theta,data){
 
   k<- 1000
   sim<- base::matrix(rep(0,k*base::nrow(data)),ncol=base::nrow(data))
@@ -306,27 +328,29 @@ ZMCEM<- function(theta,data){
 #'  lower limits, second column upper limits, and third column observed
 #'  frequencies. The current state of the parameters, vector containing
 #'  mean and sd.
-#' @param simZ The matrix, which is the samples simulated over the intervals,
-#'  of the ZMCEM function.
+#' @param simz The matrix, which is the samples simulated over the intervals,
+#'  of the zmcem function.
 #' @return Return mu which are the estimates of mean in E-step.
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  ZM_matriz = ZMCEM(theta=c(67,2),data = simdataaaa$simul_data[,,1])
+#'  zm_matriz <- em.univ::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
 #'  
-#'  mu_estimate = MuMCEM(data = simdataaaa$simul_data[,,1], simZ = ZM_matriz)
+#'  mu_estimate <- em.univ::mumcem(data = simdataaaa$simul_data[,,1],
+#'                            simz = zm_matriz)
 #'  mu_estimate
 
 
-MuMCEM<- function(data,simZ){
+mumcem<- function(data,simz){
 
   n<- base::sum(data[,3])
-  Z<- base::colMeans(simZ)
+  Z<- base::colMeans(simz)
   numerator<- base::rep(0,base::nrow(data))
   for (i in 1:base::nrow(data)) {
     numerator[i]<- data[i,3]*Z[i]
@@ -346,33 +370,33 @@ MuMCEM<- function(data,simZ){
 #'  lower limits, second column upper limits, and third column observed
 #'  frequencies. The current state of the parameters, vector containing
 #'  mean and sd.
-#' @param simZ The matrix, which is the samples simulated over the intervals,
-#'  of the ZMCEM function.
+#' @param simzz The matrix, which is the samples simulated over the intervals,
+#'  of the zmcem function.
 #' @param mupd Is the updated estimates of mu.
 #' @return Return sigma which are the estimates of variance in E-step.
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  ZM_matriz = ZMCEM(theta=c(67,2),data = simdataaaa$simul_data[,,1])
+#'  zm_matriz <- em.univ::zmcem(theta=c(67,2),data = simdataaaa$simul_data[,,1])
 #'  
-#'  mu_estimate = MuMCEM(data = simdataaaa$simul_data[,,1], simZ = ZM_matriz)
+#'  mu_estimate <- em.univ::mumcem(data = simdataaaa$simul_data[,,1], simz = zm_matriz)
 #'  
-#'  sigma_estimate = sigmaMCEM(data = simdataaaa$simul_data[,,1],
-#'                             simZ = ZM_matriz,
+#'  sigma_estimate <- em.univ::sigmamcem(data = simdataaaa$simul_data[,,1],
+#'                             simz = zm_matriz,
 #'                             mupd = mu_estimate)
 #'  sigma_estimate
 
 
 
-sigmaMCEM<- function(data,simZZ,mupd){
+sigmamcem<- function(data,simzz,mupd){
 
   n<- base::sum(data[,3])
-  ZZ<- simZZ
+  ZZ<- simzz
   NewZ<- (ZZ-mupd)^2
   SZNEW<- base::colMeans(NewZ)
   numerator<- base::rep(0,nrow(data))
@@ -391,7 +415,7 @@ sigmaMCEM<- function(data,simZZ,mupd){
 
 ### MONTE CARLO EM -------------------------------------------------------------
 
-#' This is the maximization step of the MCEM algorithm (M-step).
+#' This is the maximization step of the mcem algorithm (M-step).
 #'
 #' @param data Contingency table, matrix format of three columns, first column
 #'  lower limits, second column upper limits, and third column observed
@@ -401,27 +425,32 @@ sigmaMCEM<- function(data,simZZ,mupd){
 #' @param maxit The maximum number of iteration of the EM algorithm.
 #' @param tol1 A number, the stopping criteria for updating mu.
 #' @param tol2 A number, the stopping criteria for updating sigma.
-#' @return This is the maximization step of the MCEM algorithm (M-step) that has
+#' @return This is the maximization step of the mcem algorithm (M-step) that has
 #'  defined it using the function E-Step for mean estimate and variance
 #'  estimate. Returns the estimates for mean (mu) and sigma (variance).
 #' @export
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(em.univ)
+#' 
+#' 
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
 #'                          sd = 1.80,
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
-#'  outputMCEM2 = list()
+#'  outputmcem2 <- base::list()
 #'  
-#'  outputMCEM2[[1]]<- MCEM(data=simdataaaa$simul_data[,,1],theta_init=c(67,2),
-#'                          maxit = 1000,tol1=1e-2,tol2=1e-3)
+#'  outputmcem2[[1]] <- em.univ::mcem(data=simdataaaa$simul_data[,,1],
+#'                            theta_init=c(67,2),
+#'                            maxit = 1000,tol1=1e-2,tol2=1e-3)
 #'  
-#'  outputMCEM2
+#'  outputmcem2
 
 
-MCEM<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
+mcem<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
   
   flag<- 0
   Mu_cur<- theta_init[1]
@@ -433,12 +462,16 @@ MCEM<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
   
   for (i in 1:maxit){
     cur<- c(Mu_cur,S_cur)
-    Munew<- MuMCEM(data=mydat,simZ=ZMCEM(theta=cur,data=mydat))
+    munew<- em.univ::mumcem(data=mydat,
+                            simz=em.univ::zmcem(theta=cur,
+                                                data=mydat))
 
-    Snew<- sigmaMCEM(data=mydat,simZZ=ZMCEM(theta=cur,data=mydat),
-                     mupd=MuMCEM(data=mydat,simZ=ZMCEM(theta=cur,data=mydat)))
+    Snew<- em.univ::sigmamcem(data=mydat,simzz=zmcem(theta=cur,data=mydat),
+                     mupd=em.univ::mumcem(data=mydat,
+                                          simz=em.univ::zmcem(theta=cur,
+                                                              data=mydat)))
 
-    Mu_new<- Munew
+    Mu_new<- munew
     S_new<- Snew
     new_step<- c(Mu_new,S_new)
 
@@ -470,13 +503,16 @@ MCEM<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
 
 #' Likelihood Estimation.
 #'
-#' @param TL Lower end of the intervals.
+#' @param tl Lower end of the intervals.
 #' @param freq Frequency on each interval.
 #' @param theta The arguments including mu and sigma.
 #' @return Return the result of the log likelihood for the mean (mu) and sigma 
 #'  (standard deviation) estimates.
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#' 
+#'  library(stats)
+#' 
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
@@ -484,9 +520,9 @@ MCEM<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
 #'  
-#'  TL<- simdataaaa$simul_data[,1,1]
-#'  freq<- simdataaaa$simul_data[,3,1]
-#'  res <- stats::optim(c((67/2),(1/2)),fn=Logll,TL=TL,freq=freq,
+#'  tl <- simdataaaa$simul_data[,1,1]
+#'  freq <- simdataaaa$simul_data[,3,1]
+#'  res <- stats::optim(c((67/2),(1/2)),fn=Logll,tl=tl,freq=freq,
 #'  method="L-BFGS-B",lower=c(0.02,0.2),upper=c(180,2))
 #'  
 #'  estimate<- res$par
@@ -498,35 +534,37 @@ MCEM<- function(data,theta_init,maxit=1000,tol1=1e-2,tol2=1e-3){
 #'  sigma_squared_estimate
 
 
-Logll <- function(TL,freq,theta){
-  m<- length(TL)
+Logll <- function(tl,freq,theta){
+  m<- base::length(tl)
 
-  if( (pnorm(theta[2]*TL[2]-theta[1])) < 1e-16  ){
+  if( (stats::pnorm(theta[2]*tl[2]-theta[1])) < 1e-16  ){
     a <- -1e+6
   } #end if
 
   else{
-    a <- freq[1]*log(pnorm(theta[2]*TL[2]- theta[1]))
+    a <- freq[1]*base::log(stats::pnorm(theta[2]*tl[2]- theta[1]))
   } #end else
 
-  if( (1-pnorm(theta[2]*TL[m]-theta[1])) < 1e-16  ) {
+  if( (1-stats::pnorm(theta[2]*tl[m]-theta[1])) < 1e-16  ) {
     b <- -1e+6
   }#end if
 
   else{
-    b <- freq[m]*log(1-pnorm(theta[2]*TL[m]-theta[1]))
+    b <- freq[m]*base::log(1-stats::pnorm(theta[2]*tl[m]-theta[1]))
   }#end else
 
   c<-0
   for(i in 2:(m-1)){
 
-    if ( (pnorm(theta[2]*TL[i+1]-theta[1]) - pnorm(theta[2]*TL[i]-theta[1])) < 1e-16 ){
+    if ( (stats::pnorm(theta[2]*tl[i+1]-theta[1]) - 
+          stats::pnorm(theta[2]*tl[i]-theta[1])) < 1e-16 ){
       c <- c -1e+6
     }#end if
 
     else{
         c <- c + freq[i]*
-          (log( pnorm(theta[2]*TL[i+1]-theta[1])-pnorm(theta[2]*TL[i]-theta[1])))
+          (base::log( stats::pnorm(theta[2]*tl[i+1]-theta[1]) - 
+                  stats::pnorm(theta[2]*tl[i]-theta[1])))
     }#end else
   }#end for
 
@@ -539,9 +577,9 @@ Logll <- function(TL,freq,theta){
 
 ### exact_mle FUNCTION -------------------------------------------------------------
 
-#' Maximizing the Likelihood Estimation.
+#' Maximizing the Likelihood Estimation 1.
 #'
-#' @param TL Lower end of the intervals.
+#' @param tl Lower end of the intervals.
 #' @param freq Frequency on each interval.
 #' @param intial_mu Initial numeric value for mu (mean).
 #' @param intial_sigma Initial numeric value for sigma.
@@ -549,7 +587,7 @@ Logll <- function(TL,freq,theta){
 #'  (variance) estimates.
 #' @export
 #' @examples
-#'  simdataaaa = univ_Simul(ncol_matrix=1,
+#'  simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
 #'                          n=50,
 #'                          nclass = 10,
 #'                          mean = 68,
@@ -557,24 +595,24 @@ Logll <- function(TL,freq,theta){
 #'                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
 #'  
 #'  
-#'  TL<- simdataaaa$simul_data[,1,1]
+#'  tl<- simdataaaa$simul_data[,1,1]
 #'  freq<- simdataaaa$simul_data[,3,1]
 #'  
-#'  estimates_simul = exact_mle(TL=TL,
+#'  estimates_simul <- em.univ::exact_mle(tl=tl,
 #'                              freq=freq,
 #'                              intial_mu = (67/2),
 #'                              intial_sigma = (1/2))
 #'  
 #'  estimates_simul
 
-exact_mle <- function(TL = c(-Inf,62,64,66,68,70,72,74,76,78),
+exact_mle <- function(tl = c(-Inf,62,64,66,68,70,72,74,76,78),
                       freq = c(0,1,9,16,15,8,1,0,0,0),
                       intial_mu = (67/2),
                       intial_sigma = (1/2)){
   
   res <- stats::optim(c(intial_mu,intial_sigma),
                       fn=Logll,
-                      TL=TL,
+                      tl=tl,
                       freq=freq,
                       method="L-BFGS-B",
                       lower=c(0.02,0.2),

@@ -2,17 +2,17 @@
 % Please edit documentation in R/em_mcem_logll.R
 \name{exact_mle}
 \alias{exact_mle}
-\title{Maximizing the Likelihood Estimation.}
+\title{Maximizing the Likelihood Estimation 1.}
 \usage{
 exact_mle(
-  TL = c(-Inf, 62, 64, 66, 68, 70, 72, 74, 76, 78),
+  tl = c(-Inf, 62, 64, 66, 68, 70, 72, 74, 76, 78),
   freq = c(0, 1, 9, 16, 15, 8, 1, 0, 0, 0),
   intial_mu = (67/2),
   intial_sigma = (1/2)
 )
 }
 \arguments{
-\item{TL}{Lower end of the intervals.}
+\item{tl}{Lower end of the intervals.}
 
 \item{freq}{Frequency on each interval.}
 
@@ -25,10 +25,10 @@ Return the result of the log likelihood for the mean (mu) and sigma
  (variance) estimates.
 }
 \description{
-Maximizing the Likelihood Estimation.
+Maximizing the Likelihood Estimation 1.
 }
 \examples{
- simdataaaa = univ_Simul(ncol_matrix=1,
+ simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
                          n=50,
                          nclass = 10,
                          mean = 68,
@@ -36,10 +36,10 @@ Maximizing the Likelihood Estimation.
                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
  
  
- TL<- simdataaaa$simul_data[,1,1]
+ tl<- simdataaaa$simul_data[,1,1]
  freq<- simdataaaa$simul_data[,3,1]
  
- estimates_simul = exact_mle(TL=TL,
+ estimates_simul <- em.univ::exact_mle(tl=tl,
                              freq=freq,
                              intial_mu = (67/2),
                              intial_sigma = (1/2))

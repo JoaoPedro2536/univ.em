@@ -4,10 +4,10 @@
 \alias{Logll}
 \title{Likelihood Estimation.}
 \usage{
-Logll(TL, freq, theta)
+Logll(tl, freq, theta)
 }
 \arguments{
-\item{TL}{Lower end of the intervals.}
+\item{tl}{Lower end of the intervals.}
 
 \item{freq}{Frequency on each interval.}
 
@@ -21,7 +21,10 @@ Return the result of the log likelihood for the mean (mu) and sigma
 Likelihood Estimation.
 }
 \examples{
- simdataaaa = univ_Simul(ncol_matrix=1,
+
+ library(stats)
+
+ simdataaaa <- em.univ::univ_simul(ncol_matrix=1,
                          n=50,
                          nclass = 10,
                          mean = 68,
@@ -29,9 +32,9 @@ Likelihood Estimation.
                          fr_breaks=c(62,64,66,68,70,72,74,76,78))
  
  
- TL<- simdataaaa$simul_data[,1,1]
- freq<- simdataaaa$simul_data[,3,1]
- res <- stats::optim(c((67/2),(1/2)),fn=Logll,TL=TL,freq=freq,
+ tl <- simdataaaa$simul_data[,1,1]
+ freq <- simdataaaa$simul_data[,3,1]
+ res <- stats::optim(c((67/2),(1/2)),fn=Logll,tl=tl,freq=freq,
  method="L-BFGS-B",lower=c(0.02,0.2),upper=c(180,2))
  
  estimate<- res$par
